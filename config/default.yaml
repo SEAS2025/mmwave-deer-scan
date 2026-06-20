@@ -1,0 +1,19 @@
+﻿reader:
+  type: simulated
+  port: COM3
+  baud: 115200
+
+detector:
+  sensitivity: 1.0
+  confirm_frames: 3
+  min_snr_db: 8.0
+  cluster_eps_m: 0.75
+  cluster_min_points: 2
+
+alert:
+  cooldown_s: 8.0
+  deer_shoulder_height_m: 0.95
+
+road:
+  left_bound_m: -2.0
+  right_bound_m: 2.0
