@@ -31,6 +31,12 @@ def main():
     ap.add_argument("--sensitivity", type=float, default=1.0)
     ap.add_argument("--confirm-frames", type=int, default=DEER_RADAR_PROFILE["confirm_frames"])
     ap.add_argument("--demo", action="store_true", help="Force simulated reader")
+    ap.add_argument("--outputs", action="store_true", help="Drive Pi GPIO buzzer/LED (hardware)")
+    ap.add_argument("--can", action="store_true", help="Broadcast threats on vehicle CAN")
+    ap.add_argument("--fusion", choices=("radar_only", "confirm", "either"), default="radar_only",
+                    help="Thermal fusion policy (queries thermal unit /api/status)")
+    ap.add_argument("--thermal-url", default="http://127.0.0.1:8080/api/status",
+                    help="Thermal unit status endpoint for fusion")
     args = ap.parse_args()
 
     cfg = load_config(args.config)
@@ -58,10 +64,24 @@ def main():
     fps_n = 0
     fps = 0.0
 
+    outputs = None
+    can_bcast = None
+    gate = None
+    if args.outputs or args.can:
+        from mmwave_deer.outputs import AlertOutputs, CanBroadcaster
+        if args.outputs:
+            outputs = AlertOutputs(cooldown_s=float(cfg.get("alert", {}).get("cooldown_s", 8.0)))
+        if args.can:
+            can_bcast = CanBroadcaster()
+    if args.fusion != "radar_only":
+        from mmwave_deer.fusion import FusionGate, ThermalConfirmer
+        gate = FusionGate(policy=args.fusion, confirmer=ThermalConfirmer(url=args.thermal_url))
+
     print("=" * 60)
     print("mmWave Deer Scanner")
     print("=" * 60)
-    print(f"Reader: {reader_cfg.get('type', 'simulated')}")
+    print(f"Reader: {reader_cfg.get('type', 'simulated')}  fusion: {args.fusion}"
+          f"  outputs: {bool(outputs)}  can: {bool(can_bcast)}")
     print("Ctrl+C to stop\n")
 
     try:
@@ -78,9 +98,13 @@ def main():
             else:
                 confirm_streak = max(0, confirm_streak - 1)
 
-            armed = confirm_streak >= args.confirm_frames
+            radar_armed = confirm_streak >= args.confirm_frames
+            armed = gate.should_alert(radar_armed) if gate is not None else radar_armed
             status = "DEER ALERT" if armed else ("TRACKING" if detections else "SCANNING")
             print_frame_summary(frame.frame_number, len(frame.points), detections, status, fps)
+
+            if outputs is not None:
+                outputs.set_status("ALERT" if armed else ("TRACKING" if detections else "SCANNING"))
 
             if armed:
                 threat = assess_threats(
@@ -90,11 +114,19 @@ def main():
                 )
                 if threat:
                     print(f"  >>> {format_callout(threat)}  tier={threat.tier}")
+                    if outputs is not None:
+                        outputs.alert(threat)
+                    if can_bcast is not None:
+                        can_bcast.send(threat)
                     confirm_streak = 0
     except KeyboardInterrupt:
         print("\nStopped.")
     finally:
         source.close()
+        if outputs is not None:
+            outputs.close()
+        if can_bcast is not None:
+            can_bcast.close()
 
 
 if __name__ == "__main__":

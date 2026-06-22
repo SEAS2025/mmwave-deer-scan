@@ -1,0 +1,35 @@
+section,ref,item,mfr_part,package,qty,unit_usd,ext_usd,link
+system,1,mmWave radar EVM 60GHz AoP,TI IWR6843AOPEVM,module,1,174.00,174.00,https://www.ti.com/tool/IWR6843AOPEVM
+system,2,Compute,Raspberry Pi 5 4GB,board,1,110.00,110.00,https://www.raspberrypi.com/products/raspberry-pi-5/
+system,3,Active cooler,RPi Active Cooler,accessory,1,5.00,5.00,https://www.raspberrypi.com/products/active-cooler/
+system,4,microSD 64GB A2,SanDisk Extreme,card,1,10.00,10.00,https://www.sandisk.com/
+system,5,Carrier PCB + parts,DeerWatch carrier rev A,assembly,1,35.00,35.00,hardware/pcb/carrier_board/
+system,6,Enclosure IP65 PC,Hammond 1554F2GY,enclosure,1,22.00,22.00,https://www.hammfg.com/part/1554F2GY
+system,7,Mount bracket,L-bracket/RAM,bracket,1,12.00,12.00,https://www.rammount.com/
+system,8,12V fuse tap harness,Add-a-circuit 3A,harness,1,9.00,9.00,https://www.amazon.com/s?k=add+a+circuit+fuse+tap
+system,9,USB data cable,USB-A micro,cable,1,5.00,5.00,https://www.amazon.com/
+system,10,Piezo buzzer,CUI CEM-1203(42),buzzer,1,2.00,2.00,https://www.cui.com/product/audio/buzzers
+system,11,GPS module (optional),u-blox NEO-M9N,module,1,40.00,40.00,https://www.sparkfun.com/products/15712
+system,12,Bench PSU 27W (dev only),RPi 27W USB-C,psu,1,12.00,12.00,https://www.raspberrypi.com/products/27w-power-supply/
+carrier,PCB,2-layer FR4 1.6mm 70x50mm,JLCPCB,pcb,1,2.00,2.00,https://jlcpcb.com
+carrier,U1,Buck 5V/5A,TI TPS5450DDA,SO-8 PowerPAD,1,3.80,3.80,https://www.ti.com/product/TPS5450
+carrier,U2,LDO 3.3V,AMS1117-3.3,SOT-223,1,0.20,0.20,https://www.lcsc.com/product-detail/C6186.html
+carrier,U3,CAN transceiver,SN65HVD230,SOIC-8,1,1.40,1.40,https://www.ti.com/product/SN65HVD230
+carrier,Q1,P-MOSFET rev-pol,SI2301,SOT-23,1,0.10,0.10,https://www.lcsc.com/product-detail/C10487.html
+carrier,Q2,NPN buzzer driver,MMBT2222A,SOT-23,1,0.05,0.05,https://www.lcsc.com/product-detail/C8326.html
+carrier,D1,TVS,SMBJ16A,SMB,1,0.25,0.25,https://www.lcsc.com/product-detail/C77471.html
+carrier,D2,Schottky,SS34,SMA,1,0.08,0.08,https://www.lcsc.com/product-detail/C8678.html
+carrier,L1,Power inductor 33uH 5A,SMD,SMD,1,0.45,0.45,https://www.lcsc.com/product-detail/C408412.html
+carrier,D3,RGB status LED,5050 common cathode,5050,1,0.12,0.12,https://www.lcsc.com/product-detail/C2890.html
+carrier,C1,Bulk in 100uF 50V,electrolytic,radial,1,0.20,0.20,https://www.lcsc.com/product-detail/C3015.html
+carrier,C2,Bulk out 100uF 16V,electrolytic,radial,1,0.15,0.15,https://www.lcsc.com/product-detail/C2686.html
+carrier,C3-6,10uF 25V X5R,MLCC,0805,4,0.03,0.12,https://www.lcsc.com/product-detail/C15850.html
+carrier,C7-9,100nF 50V X7R,MLCC,0603,3,0.01,0.03,https://www.lcsc.com/product-detail/C14663.html
+carrier,R1-3,LED resistor 330,thick film,0603,3,0.01,0.03,https://www.lcsc.com/product-detail/C23138.html
+carrier,R4-6,misc 10k/1k/120,thick film,0603,3,0.01,0.03,https://www.lcsc.com/product-detail/C25804.html
+carrier,J1,Screw terminal 2P 5.08mm,12V in,THT,1,0.30,0.30,https://www.lcsc.com/product-detail/C8269.html
+carrier,J2,Screw terminal 3P,CAN,THT,1,0.40,0.40,https://www.lcsc.com/product-detail/C8270.html
+carrier,J3,2x20 socket header,Pi GPIO,THT,1,0.55,0.55,https://www.lcsc.com/product-detail/C2337.html
+carrier,J4,Radar 4P header/USB,radar,THT,1,0.30,0.30,https://www.lcsc.com/product-detail/C319152.html
+carrier,SW1,Tactile button MUTE,6mm,THT,1,0.05,0.05,https://www.lcsc.com/product-detail/C318884.html
+carrier,BZ1,Buzzer header 2P,THT,1,0.05,0.05,https://www.lcsc.com/product-detail/C7501.html

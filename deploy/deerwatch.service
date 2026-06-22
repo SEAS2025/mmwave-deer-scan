@@ -1,0 +1,16 @@
+[Unit]
+Description=DeerWatch mmWave roadside deer scanner
+After=multi-user.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/mmwave-deer-scan
+ExecStart=/usr/bin/python3 scripts/live_scanner.py --reader ti_mmwave --port /dev/ttyACM0 --outputs --fusion confirm
+Restart=always
+RestartSec=3
+# Allow access to serial + GPIO
+SupplementaryGroups=dialout gpio
+
+[Install]
+WantedBy=multi-user.target

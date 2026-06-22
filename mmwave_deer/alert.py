@@ -23,8 +23,8 @@ def format_callout(threat: ThreatAssessment, label: str = "Deer") -> str:
     side = threat.side.upper()
     m = int(round(threat.range_m))
     if threat.count > 1:
-        return f"{label} — {threat.count} detected, nearest {side} {m}m"
-    return f"{label} — {side} {m}m"
+        return f"{label} - {threat.count} detected, nearest {side} {m}m"
+    return f"{label} - {side} {m}m"
 
 
 def assess_threats(
