@@ -1,0 +1,14 @@
+{
+  "board": {
+    "design_settings": {
+      "rule_severities": {
+        "lib_footprint_issues": "ignore",
+        "lib_footprint_mismatch": "ignore"
+      }
+    }
+  },
+  "meta": {
+    "filename": "DeerWatch-Carrier.kicad_pro",
+    "version": 1
+  }
+}

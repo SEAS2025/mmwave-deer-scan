@@ -26,6 +26,8 @@ Detect deer from FMCW point clouds using size, speed, and SNR heuristics. Design
 | [hardware/README.md](hardware/README.md) | enclosure drawing + carrier PCB |
 | [hardware/enclosure/orthographic.svg](hardware/enclosure/orthographic.svg) | dimensioned 3-view drawing |
 | [hardware/pcb/carrier_board/](hardware/pcb/carrier_board/) | Gerbers + `DeerWatch-Carrier-gerbers.zip` for JLCPCB |
+| [hardware/pcb/carrier_board/kicad/](hardware/pcb/carrier_board/kicad/) | KiCad 10 project, DRC-clean, KiCad-exported Gerbers + 3D render |
+| [docs/VARIANT_AWR1843.md](docs/VARIANT_AWR1843.md) | 77 GHz AWR1843BOOST variant - range math, config, carrier + BOM delta |
 
 ## Quick start
 

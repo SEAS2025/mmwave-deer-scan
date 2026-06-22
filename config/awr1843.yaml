@@ -1,0 +1,31 @@
+# DeerWatch - 77 GHz AWR1843BOOST variant config.
+#
+# Use with the long-range chirp profile in firmware/awr1843_deer.cfg:
+#   python deploy/send_cfg.py --port COM5 --cfg firmware/awr1843_deer.cfg --baud 115200
+#   python scripts/live_scanner.py --config config/awr1843.yaml
+#
+# The AWR1843BOOST exposes two UARTs over its XDS110 micro-USB: a CLI/config
+# port (115200) for the .cfg above, and a DATA port (921600) that streams the
+# detected-point JSON consumed by the reader below. Set `port` to the DATA port.
+
+reader:
+  type: ti
+  port: COM5          # AWR1843BOOST DATA/visualizer UART
+  baud: 921600
+
+detector:
+  # 77 GHz long-range profile is coarser per-bin but reaches further, so relax
+  # the cluster epsilon a little and lean on multi-frame confirmation.
+  sensitivity: 1.0
+  confirm_frames: 3
+  min_snr_db: 9.0
+  cluster_eps_m: 1.1
+  cluster_min_points: 2
+
+alert:
+  cooldown_s: 8.0
+  deer_shoulder_height_m: 0.95
+
+road:
+  left_bound_m: -3.0
+  right_bound_m: 3.0

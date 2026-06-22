@@ -87,7 +87,8 @@ config for range vs. update rate.
 
 **Decision:** Prototype on **IWR6843AOPEVM** (wide FoV, lowest cost, AoP eliminates RF
 routing). Provide a config + carrier variant for **AWR1843BOOST** when highway range is
-required.
+required - see [VARIANT_AWR1843.md](VARIANT_AWR1843.md) (firmware `awr1843_deer.cfg`,
+config `config/awr1843.yaml`, carrier `gen_gerbers.py --variant awr1843`, ~+$125 BOM).
 
 ### 3.1 Radar chirp configuration (starting point, IWR6843)
 

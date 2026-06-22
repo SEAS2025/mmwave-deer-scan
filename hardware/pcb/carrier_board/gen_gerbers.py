@@ -27,8 +27,21 @@ from pathlib import Path
 # ----------------------------------------------------------------------------
 BW, BH = 70.0, 50.0          # board size mm
 SCALE = 1_000_000            # 1e-6 mm units, matches FSLAX46Y46
+VARIANT = "iwr6843"          # iwr6843 (60GHz AoP) | awr1843 (77GHz)
 NAME = "DeerWatch-Carrier"
 OUTDIR = Path(__file__).resolve().parent / "gerbers"
+
+
+def configure(variant: str):
+    """Select board variant (affects radar connector, title, output names)."""
+    global VARIANT, NAME, OUTDIR
+    VARIANT = variant
+    if variant == "awr1843":
+        NAME = "DeerWatch-CarrierHD"
+        OUTDIR = Path(__file__).resolve().parent / "gerbers_awr1843"
+    else:
+        NAME = "DeerWatch-Carrier"
+        OUTDIR = Path(__file__).resolve().parent / "gerbers"
 
 
 def u(v):
@@ -278,9 +291,16 @@ def place():
     screw_term(24, 7, 3)
     silk_text(24, 11.5, "CAN J2", 1.3)
 
-    # J4 radar 4P header (bottom-right)
-    header_2xN(52, 6, 2)  # 2x2 = 4 pins
-    silk_text(50.5, 10.5, "RADAR J4", 1.2)
+    # J4 radar connector (variant-specific)
+    if VARIANT == "awr1843":
+        # AWR1843BOOST power/IO subset: 1x10 0.1in BoosterPack header, bottom-right
+        for c in range(10):
+            pad_tht_round(47 + c * 2.0, 4.5, 1.5, 0.9)
+        rect_outline(47 - 1.4, 4.5 - 1.6, 47 + 9 * 2.0 + 1.4, 4.5 + 1.6)
+        silk_text(47.0, 7.3, "AWR1843 J4 (BP)", 1.0)
+    else:
+        header_2xN(52, 6, 2)  # 2x2 = 4 pins
+        silk_text(50.5, 10.5, "RADAR J4", 1.2)
 
     # U1 buck TPS5450 SO-8 PowerPAD
     soic(20, 30, 8)
@@ -359,7 +379,8 @@ def place():
     track(0.4, [(58, 38.6), (58, 40 - 1.4)])          # LED feed
 
     # ---- board title (silk) ----
-    silk_text(8, BH - 3.2, "DEERWATCH CARRIER REV A", 1.6)
+    title = "DEERWATCH CARRIER-HD 77GHZ" if VARIANT == "awr1843" else "DEERWATCH CARRIER REV A"
+    silk_text(8, BH - 3.2, title, 1.5)
     silk_text(8, 0.6, "SEAS2025  2-LAYER FR4 1.6MM", 1.1)
     silk_text(BW - 20, 0.6, "JLCPCB", 1.1)
 
@@ -511,6 +532,12 @@ def preview(path, px_per_mm=12):
 
 # ----------------------------------------------------------------------------
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="Generate DeerWatch carrier Gerbers")
+    parser.add_argument("--variant", choices=("iwr6843", "awr1843"), default="iwr6843",
+                        help="iwr6843 = 60GHz AoP carrier; awr1843 = 77GHz HD carrier")
+    args = parser.parse_args()
+    configure(args.variant)
     OUTDIR.mkdir(parents=True, exist_ok=True)
     place()
 
@@ -538,7 +565,7 @@ def main():
         fnc(p)
         written.append(p)
 
-    preview(OUTDIR.parent / "carrier_preview.png")
+    preview(OUTDIR.parent / ("carrier_preview_awr1843.png" if VARIANT == "awr1843" else "carrier_preview.png"))
 
     zip_path = OUTDIR.parent / f"{NAME}-gerbers.zip"
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
