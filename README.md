@@ -15,6 +15,8 @@ Detect deer from FMCW point clouds using size, speed, and SNR heuristics. Design
 - Simulated roadside scene for offline development
 - **Full hardware design**: system architecture, BOM, integration diagrams,
   dimensioned enclosure drawing, and a JLCPCB-ready carrier-board Gerber package
+- **Imaging R&D track**: micro-Doppler + ISAR processing skeleton on raw ADC
+  (`mmwave_deer/imaging/`), with a synthetic walking-deer demo
 
 ## Documentation & design
 
@@ -28,6 +30,7 @@ Detect deer from FMCW point clouds using size, speed, and SNR heuristics. Design
 | [hardware/pcb/carrier_board/](hardware/pcb/carrier_board/) | Gerbers + `DeerWatch-Carrier-gerbers.zip` for JLCPCB |
 | [hardware/pcb/carrier_board/kicad/](hardware/pcb/carrier_board/kicad/) | KiCad 10 project, DRC-clean, KiCad-exported Gerbers + 3D render |
 | [docs/VARIANT_AWR1843.md](docs/VARIANT_AWR1843.md) | 77 GHz AWR1843BOOST variant - range math, config, carrier + BOM delta |
+| [docs/IMAGING_RADAR_BOM.md](docs/IMAGING_RADAR_BOM.md) | imaging-radar tiers (raw capture / AWR2243 cascade / 4D) - parts + compute |
 
 ## Quick start
 
@@ -57,6 +60,16 @@ python scripts/live_scanner.py --reader ti_mmwave --port /dev/ttyACM0 --outputs 
 
 ```powershell
 python scripts/record_session.py --reader ti_mmwave --port COM3 --seconds 120
+```
+
+## Imaging (experimental)
+
+Micro-Doppler signature + ISAR image formation from raw ADC. Runs on synthetic
+data; feed a captured cube (DCA1000 / cascade) for real targets. See
+[docs/IMAGING_RADAR_BOM.md](docs/IMAGING_RADAR_BOM.md).
+
+```powershell
+python scripts/microdoppler_demo.py --out samples
 ```
 
 ## Tests
